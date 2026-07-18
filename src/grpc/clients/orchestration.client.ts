@@ -1,11 +1,11 @@
 import * as grpc from '@grpc/grpc-js';
-import * as orchestrationGrpc from '../generated/orchestration';
 import * as emptyGrpc from '../generated/common/empty';
 import * as orchestrationGrpc from '../generated/orchestration';
 import logger from '@shared/logger';
 import config from '../../config/config';
 import {GrpcClientManager} from '@shared/grpc-client-manager';
 import * as healthGrpc from "../generated/common/health";
+import {Header} from "../generated/orchestration";
 
 const orchestrationManager = new GrpcClientManager<orchestrationGrpc.OrchestrationClient>(() => {
     return new orchestrationGrpc.OrchestrationClient(config.serviceOrchestrationUrl, grpc.credentials.createInsecure());
@@ -37,44 +37,21 @@ export const readyz = (): Promise<healthGrpc.ReadyStatus | null> => {
 };
 
 export const route = async (
-    req,
+    method: string,
+    path: string,
+    headers: Header[],
+    queryParams: Header[],
+    body: Uint8Array
 ): Promise<orchestrationGrpc.RouteResponse | null> => {
-    const grpcRequest: orchestrationGrpc.RouteRequest = {
-        method: req.method,
-        path: req.path,
-        body: req.body ? Buffer.from(JSON.stringify(req.body)) : Buffer.alloc(0),
+    const grpcRequest: orchestrationGrpc.RouteRequest = {method, path, body, headers, queryParams};
 
-        headers: Object.entries(req.headers).flatMap(([key, value]) => {
-            if (Array.isArray(value)) {
-                return value.map((v) => ({key, value: String(v)}));
-            }
-
-            if (value === undefined) {
-                return [];
-            }
-
-            return [{key, value: String(value)}];
-        }),
-
-        query: Object.entries(req.query).flatMap(([key, value]) => {
-            if (Array.isArray(value)) {
-                return value.map((v) => ({key, value: String(v)}));
-            }
-
-            if (value === undefined) {
-                return [];
-            }
-
-            return [{key, value: String(value)}];
-        }),
-    };
-
-    logger.debug(grpcRequest);
+    logger.log(grpcRequest);
 
     return orchestrationManager.call((client, cb) =>
         client.route(grpcRequest, cb),
     );
 };
+
 
 
 

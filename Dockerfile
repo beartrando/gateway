@@ -33,13 +33,6 @@ RUN pnpm install --offline --frozen-lockfile
 RUN mkdir -p ./services/gateway/src/grpc/generated
 RUN pnpm --filter gateway proto:generate
 
-
-
-RUN pnpm --filter @shared/logger build
-RUN pnpm --filter @shared/grpc-client-manager build
-RUN pnpm --filter @shared/kafka-manager build
-RUN pnpm --filter @shared/pg-boss-manager build
-
 # ---------- DEV ----------
 FROM deps AS dev
 
@@ -61,6 +54,11 @@ HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 \
 FROM deps AS build
 
 ENV NODE_ENV=production
+
+RUN pnpm --filter @shared/logger build
+RUN pnpm --filter @shared/grpc-client-manager build
+RUN pnpm --filter @shared/kafka-manager build
+RUN pnpm --filter @shared/pg-boss-manager build
 
 RUN pnpm --filter gateway build
 

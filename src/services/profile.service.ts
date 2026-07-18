@@ -14,10 +14,3 @@ export const livez = async () =>
 export const readyz = async () =>
   await profileClient.readyz();
 
-export const getMyProfile = async (jwt: string) => {
-  return await orchestrationClient.getMyProfile(jwt);
-}
-
-export const getProfile = async (jwt: string, profileId: string) => {
-  return await orchestrationClient.getProfile(jwt, profileId);
-}

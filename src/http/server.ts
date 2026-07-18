@@ -17,7 +17,10 @@ app.use(cors({
 
 
 app.use('/gateway', gatewayRoutes);
-app.all('*', orchestrationController.proxy);
+app.use(orchestrationController.proxy);
+
+
 
 export default app;
+
 
