@@ -1,3 +1,5 @@
+ARG VERSION=dev
+
 # ---------- BASE ----------
 FROM node:22 AS base
 
@@ -67,11 +69,17 @@ RUN pnpm --filter gateway deploy /deploy --prod
 # ---------- PROD ----------
 FROM node:22 AS prod
 
+ARG VERSION=dev
+
 WORKDIR /usr/src/app
 
 ENV NODE_ENV=production
 
 COPY --from=build /deploy .
+
+RUN printf "%s\n" "$VERSION" > VERSION
+
+LABEL org.opencontainers.image.version="$VERSION"
 
 USER node
 
