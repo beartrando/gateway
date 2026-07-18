@@ -4,13 +4,13 @@ FROM node:22 AS base
 WORKDIR /usr/src/app
 
 COPY shared ./shared
+COPY proto ./proto
+
 COPY pnpm-lock.yaml ./
 COPY turbo.json ./
 COPY package.json ./
 COPY pnpm-workspace.yaml ./
 COPY tsconfig.base.json ./
-COPY proto ./proto
-
 
 COPY services/gateway/package*.json ./services/gateway/
 COPY services/gateway/jest.config.js ./services/gateway/
@@ -19,39 +19,31 @@ COPY services/gateway/src ./services/gateway/src/
 COPY services/gateway/__tests__ ./services/gateway/__tests__/
 #COPY services/gateway/prisma ./services/gateway/prisma/
 
-# ---------- BUILD ----------
-FROM base AS build
-
-ENV NODE_ENV=development
-
 RUN apt-get update && apt-get install -y protobuf-compiler
 
 RUN corepack enable && corepack prepare pnpm@11.9.0 --activate
+
+
+# ---------- DEPS ----------
+FROM base AS deps
 
 RUN pnpm fetch
 RUN pnpm install --offline --frozen-lockfile
 
 RUN mkdir -p ./services/gateway/src/grpc/generated
-RUN pnpm run --filter gateway proto:generate
+RUN pnpm --filter gateway proto:generate
+
+
 
 RUN pnpm --filter @shared/logger build
 RUN pnpm --filter @shared/grpc-client-manager build
 RUN pnpm --filter @shared/kafka-manager build
 RUN pnpm --filter @shared/pg-boss-manager build
 
-#RUN pnpm --filter gateway prisma generate
-RUN pnpm --filter gateway build
-
-RUN pnpm --filter gateway deploy /deploy --prod
-
 # ---------- DEV ----------
-FROM build AS dev
+FROM deps AS dev
 
 ENV NODE_ENV=development
-
-COPY --from=base /usr/local/bin/corepack /usr/local/bin/corepack
-RUN corepack enable
-RUN corepack prepare pnpm@11.9.0 --activate
 
 RUN chown -R node:node /usr/src/app
 
@@ -60,10 +52,19 @@ USER node
 EXPOSE 50051
 EXPOSE 9090
 
-CMD ["pnpm", "--filter", "gateway", "start"]
+CMD ["pnpm", "--filter", "gateway", "dev"]
 
 HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:9090/livez || exit 1
+
+# ---------- BUILD ----------
+FROM deps AS build
+
+ENV NODE_ENV=production
+
+RUN pnpm --filter gateway build
+
+RUN pnpm --filter gateway deploy /deploy --prod
 
 # ---------- PROD ----------
 FROM node:22 AS prod
@@ -71,7 +72,6 @@ FROM node:22 AS prod
 WORKDIR /usr/src/app
 
 ENV NODE_ENV=production
-
 
 COPY --from=build /deploy .
 

@@ -1,13 +1,13 @@
 import { Router, type Router as ExpressRouter } from 'express';
 
-import * as healthController from '../controllers/health.controller';
+import * as gatewayController from '../controllers/gateway.controller';
 
 const router: ExpressRouter = Router();
 
-router.get('/health', healthController.health);
-router.get('/full-health', healthController.fullHealth);
-router.get('/status', healthController.status);
-router.get('/livez', healthController.livez);
-router.get('/readyz', healthController.readyz);
+router.get('/health', gatewayController.health);
+router.get('/full-health', gatewayController.fullHealth);
+router.get('/status', gatewayController.status);
+router.get('/livez', gatewayController.livez);
+router.get('/readyz', gatewayController.readyz);
 
 export default router;

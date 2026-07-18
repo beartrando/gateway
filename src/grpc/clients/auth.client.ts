@@ -7,32 +7,32 @@ import {GrpcClientManager} from '@shared/grpc-client-manager';
 import logger from "@shared/logger";
 
 const authManager = new GrpcClientManager<authGrpc.AuthClient>(() => {
-  return new authGrpc.AuthClient(config.serviceAuthUrl, grpc.credentials.createInsecure());
+    return new authGrpc.AuthClient(config.serviceAuthUrl, grpc.credentials.createInsecure());
 });
 
 export const health = (): Promise<healthGrpc.HealthReport | null> => {
-  const grpcRequest: emptyGrpc.Empty = {};
-  return authManager.call<healthGrpc.HealthReport>(
-    (client, cb) => client.health(grpcRequest, cb)
-  ).catch((err) => {
-    logger.error("Health check failed:", err);
-    return null;
-  });
+    const grpcRequest: emptyGrpc.Empty = {};
+    return authManager.call<healthGrpc.HealthReport>(
+        (client, cb) => client.health(grpcRequest, cb)
+    ).catch((err) => {
+        logger.error("Health check failed:", err);
+        return null;
+    });
 };
 
 export const status = (): Promise<healthGrpc.StatusInfo | null> => {
-  const grpcRequest: emptyGrpc.Empty = {};
-  return authManager.call((client, cb) => client.status(grpcRequest, cb));
+    const grpcRequest: emptyGrpc.Empty = {};
+    return authManager.call((client, cb) => client.status(grpcRequest, cb));
 };
 
 export const livez = (): Promise<healthGrpc.LiveStatus | null> => {
-  const grpcRequest: emptyGrpc.Empty = {};
-  return authManager.call((client, cb) => client.livez(grpcRequest, cb));
+    const grpcRequest: emptyGrpc.Empty = {};
+    return authManager.call((client, cb) => client.livez(grpcRequest, cb));
 };
 
 export const readyz = (): Promise<healthGrpc.ReadyStatus | null> => {
-  const grpcRequest: emptyGrpc.Empty = {};
-  return authManager.call((client, cb) => client.readyz(grpcRequest, cb));
+    const grpcRequest: emptyGrpc.Empty = {};
+    return authManager.call((client, cb) => client.readyz(grpcRequest, cb));
 };
 
 // export const register = (email: string, password: string): Promise<authGrpc.AuthObject | null> => {
@@ -41,8 +41,8 @@ export const readyz = (): Promise<healthGrpc.ReadyStatus | null> => {
 // };
 
 export const anonymousSignIn = (grpcRequest: authGrpc.AnonymousSignInRequest): Promise<authGrpc.AuthObject | null> => {
-  // logger.log(grpcRequest);
-  return authManager.call((client, cb) => client.anonymousSignIn(grpcRequest, cb));
+    // logger.log(grpcRequest);
+    return authManager.call((client, cb) => client.anonymousSignIn(grpcRequest, cb));
 };
 
 // export const login = (email: string, password: string): Promise<authGrpc.AuthObject | null> => {
@@ -51,7 +51,7 @@ export const anonymousSignIn = (grpcRequest: authGrpc.AnonymousSignInRequest): P
 // };
 
 export const refreshTokens = (grpcRequest: authGrpc.RefreshTokensRequest): Promise<authGrpc.AuthObject | null> => {
-  return authManager.call((client, cb) => client.refreshTokens(grpcRequest, cb));
+    return authManager.call((client, cb) => client.refreshTokens(grpcRequest, cb));
 };
 
 // export const logout = (userId: string): Promise<authGrpc.LogoutResponse | null> => {

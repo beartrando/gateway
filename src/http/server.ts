@@ -1,10 +1,7 @@
 import express, {Express, NextFunction, Request, Response} from 'express';
 import morgan from 'morgan';
 import gatewayRoutes from './routes/gateway.routes';
-import authRoutes from './routes/auth.routes';
-import profileRoutes from './routes/profile.routes';
-import {verifyToken} from "./middlewares/auth.middleware";
-import publicPaths from "./routes/public.paths";
+import * as orchestrationController from './controllers/orchestration.controller';
 import cors from 'cors'
 import cookieParser from "cookie-parser";
 
@@ -18,18 +15,9 @@ app.use(cors({
 }));
 // app.use(cookieParser());
 
-const withAuth = (req: Request, res: Response, next: NextFunction) => {
-  const isPublic = publicPaths.some(path => req.path.startsWith('/' + path));
-  // logger.log('req.path',req.path);
-  // logger.log('isPublic',isPublic);
-  if (isPublic) return next();
-  return verifyToken(req, res, next)
-};
-app.use(withAuth);
 
-app.use('/', gatewayRoutes);
-app.use('/auth', authRoutes);
-app.use('/profile', profileRoutes);
+app.use('/gateway', gatewayRoutes);
+app.all('*', orchestrationController.proxy);
 
 export default app;
 
