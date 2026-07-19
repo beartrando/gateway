@@ -9,7 +9,6 @@ import {GrpcClientManager} from "@shared/grpc-client-manager";
 import logger from "@shared/logger";
 
 const managers = Object.fromEntries(
-
     Object.entries(config).map(([serviceName, serviceUrl]) => [
 
         serviceName,
@@ -20,11 +19,9 @@ const managers = Object.fromEntries(
                 serviceUrl,
                 grpc.credentials.createInsecure(),
             ),
-
         ),
 
     ]),
-
 ) satisfies Record<string, GrpcClientManager<healthGrpc.HealthClient>>;
 
 export async function check(
@@ -39,8 +36,8 @@ export async function check(
         );
     }
 
-    return manager.call((client, callback) =>
-        client.health({} as emptyGrpc.Empty, callback),
+    return manager.call<healthGrpc.HealthReport>((client, callback) =>
+        client.check({} as emptyGrpc.Empty, callback),
     ).catch((err) => {
         logger.error("Service health check failed", {
             service,
@@ -53,13 +50,12 @@ export async function check(
 export async function checkAll(): Promise<Record<string, healthGrpc.HealthReport | null>> {
 
     const reports = await Promise.all(
-
         Object.entries(managers).map(async ([serviceName, manager]) => {
 
             try {
 
                 const report = await manager.call((client, callback) =>
-                    client.health({} as emptyGrpc.Empty, callback),
+                    client.check({} as emptyGrpc.Empty, callback),
                 ).catch((err) => {
                     logger.error("Service health check failed", {
                         serviceName,
@@ -80,7 +76,6 @@ export async function checkAll(): Promise<Record<string, healthGrpc.HealthReport
             }
 
         }),
-
     );
 
     return Object.fromEntries(reports) as Record<

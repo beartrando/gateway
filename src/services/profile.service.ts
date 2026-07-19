@@ -3,7 +3,7 @@ import * as orchestrationClient from "../grpc/clients/orchestration.client";
 import logger from "@shared/logger";
 
 export const health = async () =>
-  await profileClient.health();
+  await profileClient.check();
 
 export const status = async () =>
   await profileClient.status();

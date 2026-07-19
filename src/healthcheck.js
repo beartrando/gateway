@@ -8,7 +8,7 @@ const client = new gatewayGrpc.GatewayClient(
   grpc.credentials.createInsecure()
 );
 
-client.health(new emptyGrpc.Empty(), (err, response) => {
+client.check(new emptyGrpc.Empty(), (err, response) => {
   if (err) {
     console.error(err.message);
     process.exit(1);
