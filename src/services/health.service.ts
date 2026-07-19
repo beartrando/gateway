@@ -3,93 +3,40 @@ import logger from "@shared/logger";
 
 const startedAt = Date.now();
 
-///////////////////////////////////////////////////////////////////////////////////
-// const clients = {
-//   auth: authClient,
-//   profile: profileClient,
-//   // engine: engineClient,
-//   // mailer: mailerClient,
-// };
-//
-//
-// async function getServicesHealth(service) {
-//   return await clients.{service}.authClient.health();
-// }
-//
-// export const health = async (service: string) => {
-//   if (!service) {
-//     return { serving: 'UNKNOWN' };
-//   }
-//
-//   const healthReports = await getServicesHealth(service);
-// };
-///////////////////////////////////////////////////////////////////////////////////
+export const check = async () => {
 
+  const reports = await servicesClient.checkAll();
 
-async function getServicesHealth() {
-  const [
-    auth,
-    profile,
-    orchestration,
-    engine,
-    battle,
-    streaming,
-    ai,
-    // mailer,
-  ] = await Promise.all([
-    authClient.health(),
-    profileClient.health(),
-    orchestrationClient.health(),
-    engineClient.health(),
-    battleClient.health(),
-    streamingClient.health(),
-    aiClient.health(),
-    // mailerClient.health(),
-  ]);
-
-  return {
-    auth,
-    profile,
-    orchestration,
-    engine,
-    battle,
-    streaming,
-    ai,
-    // mailer,
-  };
-}
-
-export const health = async () => {
-  const healthReports = await fullHealth();
-  // logger.log(healthReports);
-
-  // Формируем объект: { auth: true, profile: true, engine: true, ... }
   const components: Record<string, string> = {};
-  for (const [key, value] of Object.entries(healthReports.components ?? {})) {
-    components[key] = (value?.healthy ?? false) ? 'ok' : 'fail';
+
+  for (const [name, report] of Object.entries(reports)) {
+
+    components[name] =
+        report?.healthy
+            ? "ok"
+            : "fail";
+
   }
 
   return {
-    healthy: healthReports.healthy,
+    healthy: Object.values(reports).every(
+        report => report?.healthy,
+    ),
     components,
   };
 };
 
 export const fullHealth = async () => {
 
-  const reports = await getServicesHealth();
+  const reports = await servicesClient.checkAll() ;
 
-  const result: {
-    healthy: boolean;
-    components?: typeof reports;
-  } = {
-    healthy: Object.values(reports).every(r => r?.healthy === true),
+  return {
+    healthy: Object.values(reports).every(
+        report => report?.healthy,
+    ),
+    components: reports,
   };
-
-  result.components = reports;
-
-  return result;
-}
+};
 
 export const status = async () => {
   return {

@@ -1,53 +1,91 @@
 import * as grpc from "@grpc/grpc-js";
-import * as healthGrpc from "../generated/common/health";
+
 import * as emptyGrpc from "../generated/common/empty";
+import * as healthGrpc from "../generated/common/health";
 
-import config from "../../config/config";
+import config from "../../config/services.config";
+
 import {GrpcClientManager} from "@shared/grpc-client-manager";
-import servicesConfig from "../../config/services.config";
-
-type HealthManager = GrpcClientManager<any>;
+import logger from "@shared/logger";
 
 const managers = Object.fromEntries(
 
-    Object.entries(servicesConfig).map(([name, url]) => [
+    Object.entries(config).map(([serviceName, serviceUrl]) => [
 
-      name,
+        serviceName,
 
-      new GrpcClientManager(( ) =>
+        new GrpcClientManager<healthGrpc.HealthClient>(() =>
 
-          new healthGrpc.HealthClient(
-              url,
-              grpc.credentials.createInsecure(),
-          ),
+            new healthGrpc.HealthClient(
+                serviceUrl,
+                grpc.credentials.createInsecure(),
+            ),
 
-      ),
+        ),
 
     ]),
 
-) satisfies Record<string, HealthManager>;
+) satisfies Record<string, GrpcClientManager<healthGrpc.HealthClient>>;
 
-export async function health(service: string) {
-  return managers[service].call((client, cb) =>
-      client.health({} as emptyGrpc.Empty, cb),
-  );
-}
+export async function check(
+    service: string,
+): Promise<healthGrpc.HealthReport | null> {
 
-export async function healthAll() {
+    const manager = managers[service];
 
-  const entries = await Promise.all(
-
-      Object.entries(managers).map(async ([name, manager]) => {
-
-        const report = await manager.call((client, cb) =>
-            client.health({}, cb),
+    if (!manager) {
+        throw new Error(
+            `Unknown service '${service}'`,
         );
+    }
 
-        return [name, report] as const;
-
-      }),
-
-  );
-
-  return Object.fromEntries(entries);
+    return manager.call((client, callback) =>
+        client.health({} as emptyGrpc.Empty, callback),
+    ).catch((err) => {
+        logger.error("Service health check failed", {
+            service,
+            err,
+        });
+        return null;
+    });
 }
+
+export async function checkAll(): Promise<Record<string, healthGrpc.HealthReport | null>> {
+
+    const reports = await Promise.all(
+
+        Object.entries(managers).map(async ([serviceName, manager]) => {
+
+            try {
+
+                const report = await manager.call((client, callback) =>
+                    client.health({} as emptyGrpc.Empty, callback),
+                ).catch((err) => {
+                    logger.error("Service health check failed", {
+                        serviceName,
+                        err,
+                    });
+                    return null;
+                });
+
+                return [serviceName, report] as const;
+
+            } catch {
+
+                return [
+                    serviceName,
+                    null,
+                ] as const;
+
+            }
+
+        }),
+
+    );
+
+    return Object.fromEntries(reports) as Record<
+        string,
+        healthGrpc.HealthReport | null
+    >;
+}
+

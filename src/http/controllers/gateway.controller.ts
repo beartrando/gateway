@@ -5,7 +5,7 @@ export const health = wrapper(async (req, res) => {
   if (req.query.full) {
     return await healthService.fullHealth();
   } else {
-    return await healthService.health();
+    return await healthService.check();
   }
 });
 

@@ -18,7 +18,7 @@ export const proxy = async (
 ): Promise<orchestrationGrpc.ProxyResponse | null> => {
     const grpcRequest: orchestrationGrpc.ProxyRequest = {method, path, body, headers, queryParams};
 
-    logger.log(grpcRequest);
+    // logger.log(grpcRequest);
 
     return orchestrationManager.call((client, cb) =>
         client.proxy(grpcRequest, cb),

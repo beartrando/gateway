@@ -1,4 +1,4 @@
-import express, {Express, NextFunction, Request, Response} from 'express';
+import express, {Express} from 'express';
 import morgan from 'morgan';
 import gatewayRoutes from './routes/gateway.routes';
 import * as orchestrationController from './controllers/orchestration.controller';
