@@ -1,12 +1,5 @@
-import * as authClient from '../grpc/clients/auth.client';
-import * as profileClient from '../grpc/clients/profile.client';
-import * as orchestrationClient from '../grpc/clients/orchestration.client';
-import * as engineClient from '../grpc/clients/engine.client';
-import * as battleClient from '../grpc/clients/battle.client';
-import * as streamingClient from '../grpc/clients/streaming.client';
-import * as aiClient from '../grpc/clients/ai.client';
+import * as servicesClient from '../grpc/clients/services.client';
 import logger from "@shared/logger";
-// import * as mailerClient from '../grpc/clients/mailer.client';
 
 const startedAt = Date.now();
 
