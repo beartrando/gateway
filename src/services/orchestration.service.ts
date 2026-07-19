@@ -28,6 +28,6 @@ export const route = async function(req: Request) {
         return [{ key, value: String(value) }];
     });
 
-    return await orchestrationClient.route(method, path, headers, queryParams, body);
+    return await orchestrationClient.proxy(method, path, headers, queryParams, body);
 }
 

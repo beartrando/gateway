@@ -36,19 +36,19 @@ export const readyz = (): Promise<healthGrpc.ReadyStatus | null> => {
     return orchestrationManager.call((client, cb) => client.readyz(grpcRequest, cb));
 };
 
-export const route = async (
+export const proxy = async (
     method: string,
     path: string,
     headers: Header[],
     queryParams: Header[],
     body: Uint8Array
-): Promise<orchestrationGrpc.RouteResponse | null> => {
-    const grpcRequest: orchestrationGrpc.RouteRequest = {method, path, body, headers, queryParams};
+): Promise<orchestrationGrpc.ProxyResponse | null> => {
+    const grpcRequest: orchestrationGrpc.ProxyRequest = {method, path, body, headers, queryParams};
 
     logger.log(grpcRequest);
 
     return orchestrationManager.call((client, cb) =>
-        client.route(grpcRequest, cb),
+        client.proxy(grpcRequest, cb),
     );
 };
 
