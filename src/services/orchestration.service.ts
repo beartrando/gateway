@@ -1,6 +1,7 @@
 import * as orchestrationClient from "../grpc/clients/orchestration.client";
 import {Request} from 'express';
 import * as orchestrationGrpc from "../grpc/generated/orchestration";
+import logger from "@shared/logger";
 
 export const route = async function (req: Request) {
     const method = req.method;
@@ -28,6 +29,7 @@ export const route = async function (req: Request) {
         return [{key, value: String(value)}];
     });
 
+    logger.log(headers);
     const grpcRequest: orchestrationGrpc.ProxyRequest = {method, path, body, headers, queryParams};
 
     return await orchestrationClient.proxy(grpcRequest);
