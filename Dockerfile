@@ -40,6 +40,8 @@ RUN pnpm --filter gateway proto:generate
 # ---------- DEV ----------
 FROM deps AS dev
 
+COPY services/gateway/tsconfig.test.json ./services/gateway/
+
 ENV NODE_ENV=development
 
 RUN chown -R node:node /usr/src/app

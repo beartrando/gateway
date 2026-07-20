@@ -8,8 +8,9 @@ export const proxy = wrapper(async (req, res) => {
 
     if (response) {
 
-
-        logger.log(JSON.parse(Buffer.from(response.body).toString("utf8")));
+        // if (response.body) {
+        //     logger.log(JSON.parse(Buffer.from(response.body).toString("utf8")));
+        // }
 
         if (req.header("X-Debug-Json") === "true") {
             // logger.log('here');
