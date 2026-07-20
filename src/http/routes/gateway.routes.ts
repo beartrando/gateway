@@ -1,4 +1,4 @@
-import { Router, type Router as ExpressRouter } from 'express';
+import {Router, type Router as ExpressRouter} from 'express';
 
 import * as gatewayController from '../controllers/gateway.controller';
 

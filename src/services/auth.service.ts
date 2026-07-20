@@ -3,16 +3,16 @@ import {AnonymousSignInRequest, RefreshTokensRequest} from '../grpc/generated/au
 import * as orchestrationClient from "../grpc/clients/orchestration.client";
 
 export const health = async () =>
-  await authClient.check();
+    await authClient.check();
 
 export const status = async () =>
-  await authClient.status();
+    await authClient.status();
 
 export const livez = async () =>
-  await authClient.livez();
+    await authClient.livez();
 
 export const readyz = async () =>
-  await authClient.readyz();
+    await authClient.readyz();
 
 
 

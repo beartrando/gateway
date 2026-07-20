@@ -1,13 +1,13 @@
 import * as engineClient from "../grpc/clients/engine.client";
 
 export const health = async () =>
-  await engineClient.check();
+    await engineClient.check();
 
 export const status = async () =>
-  await engineClient.status();
+    await engineClient.status();
 
 export const livez = async () =>
-  await engineClient.livez();
+    await engineClient.livez();
 
 export const readyz = async () =>
-  await engineClient.readyz();
+    await engineClient.readyz();

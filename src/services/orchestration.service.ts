@@ -1,8 +1,8 @@
 import * as orchestrationClient from "../grpc/clients/orchestration.client";
-import { Request } from 'express';
-import {Header} from "../grpc/generated/orchestration";
+import {Request} from 'express';
+import * as orchestrationGrpc from "../grpc/generated/orchestration";
 
-export const route = async function(req: Request) {
+export const route = async function (req: Request) {
     const method = req.method;
     const path = req.path;
     const body = req.body ? Buffer.from(JSON.stringify(req.body)) : Buffer.alloc(0);
@@ -20,14 +20,16 @@ export const route = async function(req: Request) {
 
     const queryParams = Object.entries(req.query as Record<string, any>).flatMap(([key, value]) => {
         if (Array.isArray(value)) {
-            return value.map((v) => ({ key, value: String(v) }));
+            return value.map((v) => ({key, value: String(v)}));
         }
         if (value === undefined) {
             return [];
         }
-        return [{ key, value: String(value) }];
+        return [{key, value: String(value)}];
     });
 
-    return await orchestrationClient.proxy(method, path, headers, queryParams, body);
+    const grpcRequest: orchestrationGrpc.ProxyRequest = {method, path, body, headers, queryParams};
+
+    return await orchestrationClient.proxy(grpcRequest);
 }
 

@@ -5,20 +5,20 @@ import logger from "@shared/logger";
 
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  // logger.log(req.headers.authorization);
-  let token = req.headers.authorization?.split(' ')[1];
+    // logger.log(req.headers.authorization);
+    let token = req.headers.authorization?.split(' ')[1];
 
-  // logger.log(token);
+    // logger.log(token);
 
-  if (!token) {
-    return res.status(401).json({message: 'Token is missing'});
-  }
+    if (!token) {
+        return res.status(401).json({message: 'Token is missing'});
+    }
 
-  try {
-    const decoded = jwt.verify(token, config.jwtAccessSecret!);
-    (req as any).user = decoded;
-    next();
-  } catch (err) {
-    return res.status(401).json({message: 'Invalid token'});
-  }
+    try {
+        const decoded = jwt.verify(token, config.jwtAccessSecret!);
+        (req as any).user = decoded;
+        next();
+    } catch (err) {
+        return res.status(401).json({message: 'Invalid token'});
+    }
 };
