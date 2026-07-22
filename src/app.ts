@@ -47,7 +47,7 @@ async function bootstrap(): Promise<void> {
         await startGrpc();
         await startHttp();
         logger.info(
-            '🚀 Battle service started',
+            '🚀 Gateway service started',
         );
     } catch (err) {
         logger.error(

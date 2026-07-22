@@ -28,13 +28,16 @@ export const check = async (): Promise<healthGrpc.HealthReport> => {
 };
 
 export const fullHealth = async () => {
-
     const reports = await servicesClient.checkAll();
 
+    const ok = Object.values(reports).every(
+        report => report?.status === healthGrpc.HealthStatus.HEALTH_STATUS_OK,
+    );
+
     return {
-        status: Object.values(reports).every(
-            report => report?.status,
-        ),
+        status: ok
+            ? healthGrpc.HealthStatus.HEALTH_STATUS_OK
+            : healthGrpc.HealthStatus.HEALTH_STATUS_FAIL,
         components: reports,
     };
 };
