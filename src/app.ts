@@ -1,6 +1,5 @@
 import grpcServer from './grpc/server';
 import * as grpc from '@grpc/grpc-js';
-
 import logger from '@shared/logger';
 import httpApp from "./http/server";
 import config from "./config/config";
@@ -9,7 +8,6 @@ const GRPC_PORT =
     process.env.GRPC_PORT ?? '50051';
 
 async function startGrpc(): Promise<void> {
-
     return new Promise<void>(
         (resolve, reject) => {
             grpcServer.bindAsync(
@@ -21,6 +19,7 @@ async function startGrpc(): Promise<void> {
                             { err },
                             '❌ Failed to start gRPC',
                         );
+
                         return reject(err);
                     }
                     logger.info(
@@ -43,10 +42,10 @@ async function startHttp() {
 }
 
 async function bootstrap(): Promise<void> {
+
     try {
         await startGrpc();
         await startHttp();
-
         logger.info(
             '🚀 Battle service started',
         );
@@ -57,9 +56,11 @@ async function bootstrap(): Promise<void> {
         );
         process.exit(1);
     }
+
     process.on(
         'SIGINT',
-        async () => {            logger.info(
+        async () => {
+            logger.info(
                 '🛑 Shutting down...',
             );
             grpcServer.forceShutdown();
