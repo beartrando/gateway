@@ -75,6 +75,8 @@ FROM node:22 AS prod
 
 ARG VERSION=dev
 
+ENV APP_VERSION=$VERSION
+
 WORKDIR /usr/src/app
 
 ENV NODE_ENV=production
