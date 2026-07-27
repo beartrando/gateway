@@ -2,10 +2,10 @@ import config from "../config/config";
 import {ServiceStatus} from "../grpc/generated/common/health";
 import {LivezUseCase} from "./livez";
 
+const startedAt = Date.now();
+
 export class StatusUseCase {
     async execute(): Promise<ServiceStatus> {
-
-        const startedAt = Date.now();
         const uptimeMs = Date.now() - startedAt;
 
         return {
