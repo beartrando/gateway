@@ -1,27 +1,31 @@
-import * as healthService from "../../services/health.service";
 import wrapper from "./wrapper";
 import logger from "@shared/logger";
+import fullHealthUseCase from "../../use-cases/full-health";
+import livezUseCase from "../../use-cases/livez";
+import readyzUseCase from "../../use-cases/readyz";
+import healthUseCase from "../../use-cases/health";
+import statusUseCase from "../../use-cases/status";
 
 export const health = wrapper(async (req, res) => {
     if (req.query.full) {
-        return await healthService.fullHealth();
+        return await fullHealthUseCase.execute();
     } else {
-        return await healthService.check();
+        return await healthUseCase.execute();
     }
 });
 
 export const fullHealth = wrapper(async (req, res) => {
-    return await healthService.fullHealth();
+    return await fullHealthUseCase.execute();
 });
 
 export const status = wrapper(async (req, res) => {
-    return await healthService.status();
+    return await statusUseCase.execute();
 });
 
 export const livez = wrapper(async (req, res) => {
-    return await healthService.livez();
+    return await livezUseCase.execute();
 });
 
 export const readyz = wrapper(async (req, res) => {
-    return await healthService.readyz();
+    return await readyzUseCase.execute();
 });

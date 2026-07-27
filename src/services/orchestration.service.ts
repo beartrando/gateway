@@ -29,7 +29,7 @@ export const route = async function (req: Request) {
         return [{key, value: String(value)}];
     });
 
-    // logger.log(headers);
+    logger.log(headers);
     const grpcRequest: orchestrationGrpc.ProxyRequest = {method, path, body, headers, queryParams};
 
     return await orchestrationClient.proxy(grpcRequest);

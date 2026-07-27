@@ -5,12 +5,12 @@ export const proxy = wrapper(async (req, res) => {
     const response = await orchestrationService.route(req);
     if (response) {
         if (req.header("x-debug-json") === "true") {
-            res.status(response.status).json(
+            res.status(response.statusCode).json(
                 JSON.parse(Buffer.from(response.body).toString("utf8"))
             );
         } else {
             res
-                .status(response.status)
+                .status(response.statusCode)
                 .set("Content-Type", "application/x-protobuf")
                 .send(Buffer.from(response.body));
         }
