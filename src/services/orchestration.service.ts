@@ -1,7 +1,7 @@
-import * as orchestrationClient from "../grpc/clients/orchestration.client";
 import {Request} from 'express';
 import * as orchestrationGrpc from "../grpc/generated/orchestration";
 import logger from "@shared/logger";
+import orchestrationClient from "../grpc/clients/orchestration.client";
 
 export const route = async function (req: Request) {
     const method = req.method;

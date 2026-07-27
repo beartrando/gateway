@@ -9,6 +9,7 @@ async function bootstrap(): Promise<void> {
     try {
         await grpcService.init();
         await httpService.init();
+
         logger.info(
             '🚀 Gateway service started',
         );

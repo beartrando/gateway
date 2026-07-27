@@ -1,7 +1,7 @@
 export const config = {
     appName: process.env.APP_NAME || 'gateway',
     appVersion: process.env.APP_VERSION || '1.0.0',
-    appEnv: process.env.APP_ENV || 'dev',
+    appEnv: process.env.APP_ENV || 'prod',
 
     grpcPort: Number(process.env.GRPC_PORT) || 50051,
     httpPort: Number(process.env.HTTP_PORT) || 9090,

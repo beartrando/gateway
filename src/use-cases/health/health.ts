@@ -1,11 +1,11 @@
-import * as healthGrpc from "../grpc/generated/common/health";
-import config from "../config/config";
-import * as servicesClient from "../grpc/clients/services.client";
+import * as healthGrpc from "../../grpc/generated/common/health";
+import config from "../../config/config";
+import healthAgregator from "../../grpc/clients/health.agregator";
 
 export class HealthUseCase {
 
     async execute(): Promise<healthGrpc.HealthReport> {
-        const reports = await servicesClient.checkAll();
+        const reports = await healthAgregator.checkAll();
 
         const components: Record<string, healthGrpc.HealthStatus> = {};
 

@@ -1,5 +1,5 @@
-import config from "../config/config";
-import {ServiceStatus} from "../grpc/generated/common/health";
+import config from "../../config/config";
+import {ServiceStatus} from "../../grpc/generated/common/health";
 import {LivezUseCase} from "./livez";
 
 const startedAt = Date.now();

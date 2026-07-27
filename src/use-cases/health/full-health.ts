@@ -1,11 +1,11 @@
-import * as healthGrpc from "../grpc/generated/common/health";
-import * as servicesClient from "../grpc/clients/services.client";
+import * as healthGrpc from "../../grpc/generated/common/health";
+import healthAgregator from "../../grpc/clients/health.agregator";
 
 export class FullHealthUseCase {
 
     async execute() {
 
-        const reports = await servicesClient.checkAll();
+        const reports = await healthAgregator.checkAll();
 
         const ok = Object.values(reports).every(
             report => report?.status === healthGrpc.HealthStatus.HEALTH_STATUS_OK,
