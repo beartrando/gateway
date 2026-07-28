@@ -1,7 +1,7 @@
 import * as grpc from '@grpc/grpc-js';
 import * as healthGrpc from '../../../contracts/proto/generated/common/health';
 import * as emptyGrpc from '../../../contracts/proto/generated/common/empty';
-import {callbackError} from './callback.error';
+import callbackError from './callback.error';
 import logger from "@shared/logger";
 import healthUseCase from "../../../use-cases/health/health";
 import statusUseCase from "../../../use-cases/health/status";
