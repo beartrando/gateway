@@ -3,10 +3,10 @@ import * as healthGrpc from '../generated/common/health';
 import * as emptyGrpc from '../generated/common/empty';
 import {callbackError} from './callback.error';
 import logger from "@shared/logger";
-import healthUseCase from "../../use-cases/health/health";
-import statusUseCase from "../../use-cases/health/status";
-import livezUseCase from "../../use-cases/health/livez";
-import readyzUseCase from "../../use-cases/health/readyz";
+import healthUseCase from "../../../use-cases/health/health";
+import statusUseCase from "../../../use-cases/health/status";
+import livezUseCase from "../../../use-cases/health/livez";
+import readyzUseCase from "../../../use-cases/health/readyz";
 
 export const check = async (
     call: grpc.ServerUnaryCall<emptyGrpc.Empty, healthGrpc.HealthReport>,

@@ -2,7 +2,7 @@ export interface ServiceConfig {
     readonly url: string;
 }
 
-const servicesConfig = Object.entries(process.env)
+const microservicesConfig = Object.entries(process.env)
     .filter(([key]) =>
         key.startsWith("SERVICE_") &&
         key.endsWith("_URL"),
@@ -26,4 +26,4 @@ const servicesConfig = Object.entries(process.env)
 
     }, {});
 
-export default Object.freeze(servicesConfig);
+export default Object.freeze(microservicesConfig);

@@ -1,5 +1,5 @@
-import * as healthGrpc from "../../grpc/generated/common/health";
-import healthAgregator from "../../grpc/clients/health.agregator";
+import * as healthGrpc from "../../infrastructure/grpc/generated/common/health";
+import healthAgregator from "../../infrastructure/grpc/clients/health.agregator";
 
 export class FullHealthUseCase {
 

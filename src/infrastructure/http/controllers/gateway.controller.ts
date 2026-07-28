@@ -1,10 +1,10 @@
 import wrapper from "./wrapper";
 import logger from "@shared/logger";
-import fullHealthUseCase from "../../use-cases/health/full-health";
-import livezUseCase from "../../use-cases/health/livez";
-import readyzUseCase from "../../use-cases/health/readyz";
-import healthUseCase from "../../use-cases/health/health";
-import statusUseCase from "../../use-cases/health/status";
+import fullHealthUseCase from "../../../use-cases/health/full-health";
+import livezUseCase from "../../../use-cases/health/livez";
+import readyzUseCase from "../../../use-cases/health/readyz";
+import healthUseCase from "../../../use-cases/health/health";
+import statusUseCase from "../../../use-cases/health/status";
 
 export const health = wrapper(async (req, res) => {
     if (req.query.full) {

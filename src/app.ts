@@ -1,8 +1,8 @@
 import * as grpc from '@grpc/grpc-js';
 import logger from '@shared/logger';
-import config from "./config/config";
-import grpcService from "./services/grpc.service";
-import httpService from "./services/http.service";
+import config from "./infrastructure/app/config";
+import grpcService from "./infrastructure/grpc/grpc.service";
+import httpService from "./infrastructure/http/http.service";
 
 async function bootstrap(): Promise<void> {
 

@@ -1,9 +1,9 @@
 import logger from "@shared/logger";
-import config from "../config/config";
+import config from "./config";
 import express, {Express} from 'express';
 import morgan from 'morgan';
-import gatewayRoutes from '../http/routes/gateway.routes';
-import * as orchestrationController from '../http/controllers/orchestration.controller';
+import gatewayRoutes from './routes/gateway.routes';
+import * as orchestrationController from './controllers/orchestration.controller';
 import cors from 'cors'
 // import cookieParser from "cookie-parser";
 import {Server} from "http";

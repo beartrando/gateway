@@ -19,7 +19,7 @@ COPY services/gateway/jest.config.js ./services/gateway/
 COPY services/gateway/tsconfig.json ./services/gateway/
 COPY services/gateway/src ./services/gateway/src/
 COPY services/gateway/__tests__ ./services/gateway/__tests__/
-#COPY services/gateway/prisma ./services/gateway/prisma/
+#COPY services/gateway/src/infrastructure/prisma ./services/gateway/src/infrastructure/prisma/
 
 RUN apt-get update && apt-get install -y protobuf-compiler
 
@@ -32,7 +32,7 @@ FROM base AS deps
 RUN pnpm fetch
 RUN pnpm install --offline --frozen-lockfile
 
-RUN mkdir -p ./services/gateway/src/grpc/generated
+RUN mkdir -p ./services/gateway/src/infrastructure/grpc/generated
 RUN pnpm --filter gateway proto:generate
 
 #RUN pnpm --filter gateway prisma:generate

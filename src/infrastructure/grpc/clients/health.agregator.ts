@@ -3,7 +3,7 @@ import * as grpc from "@grpc/grpc-js";
 import * as emptyGrpc from "../generated/common/empty";
 import * as healthGrpc from "../generated/common/health";
 
-import servicesConfig from "../../config/services.config";
+import servicesConfig from "../config/microservices.config";
 
 import { GrpcClientManager } from "@shared/grpc-client-manager";
 import logger from "@shared/logger";

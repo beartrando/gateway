@@ -1,6 +1,6 @@
-import * as healthGrpc from "../../grpc/generated/common/health";
-import config from "../../config/config";
-import healthAgregator from "../../grpc/clients/health.agregator";
+import * as healthGrpc from "../../infrastructure/grpc/generated/common/health";
+import config from "../../infrastructure/app/config";
+import healthAgregator from "../../infrastructure/grpc/clients/health.agregator";
 
 export class HealthUseCase {
 

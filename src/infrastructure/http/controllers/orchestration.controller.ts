@@ -1,5 +1,5 @@
 import wrapper from "./wrapper";
-import * as orchestrationService from "../../services/orchestration.service";
+import * as orchestrationService from "../../orchestration/orchestration.service";
 
 export const proxy = wrapper(async (req, res) => {
     const response = await orchestrationService.route(req);

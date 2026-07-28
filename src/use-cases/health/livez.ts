@@ -1,4 +1,4 @@
-import {LiveStatus} from "../../grpc/generated/common/health";
+import {LiveStatus} from "../../infrastructure/grpc/generated/common/health";
 
 export class LivezUseCase {
     async execute(): Promise<LiveStatus> {
