@@ -1,4 +1,4 @@
-import * as healthGrpc from "../../infrastructure/grpc/generated/common/health";
+import * as healthGrpc from "../../contracts/proto/generated/common/health";
 import config from "../../infrastructure/app/config";
 import healthAgregator from "../../infrastructure/grpc/clients/health.agregator";
 

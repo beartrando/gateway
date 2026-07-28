@@ -31,7 +31,7 @@ FROM base AS deps
 RUN pnpm fetch
 RUN pnpm install --offline --frozen-lockfile
 
-RUN mkdir -p ./services/gateway/src/infrastructure/grpc/generated
+RUN mkdir -p ./services/gateway/src/contracts/proto/generated
 RUN pnpm --filter gateway proto:generate
 
 #RUN pnpm --filter gateway prisma:generate

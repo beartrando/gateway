@@ -1,5 +1,5 @@
 import {Request} from 'express';
-import * as orchestrationGrpc from "../grpc/generated/orchestration";
+import * as orchestrationGrpc from "../../contracts/proto/generated/orchestration";
 import logger from "@shared/logger";
 import orchestrationClient from "../grpc/clients/orchestration.client";
 

@@ -1,7 +1,7 @@
 import * as grpc from "@grpc/grpc-js";
 
-import * as emptyGrpc from "../generated/common/empty";
-import * as healthGrpc from "../generated/common/health";
+import * as emptyGrpc from "../../../contracts/proto/generated/common/empty";
+import * as healthGrpc from "../../../contracts/proto/generated/common/health";
 
 import servicesConfig from "../config/microservices.config";
 

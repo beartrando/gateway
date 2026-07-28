@@ -1,6 +1,6 @@
 import * as grpc from "@grpc/grpc-js";
 
-import * as orchestrationGrpc from "../generated/orchestration";
+import * as orchestrationGrpc from "../../../contracts/proto/generated/orchestration";
 
 import { GrpcClientManager } from "@shared/grpc-client-manager";
 
