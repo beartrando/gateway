@@ -1,6 +1,5 @@
-import config from "../../infrastructure/app/config";
-import {ServiceStatus} from "../../contracts/proto/common/health";
-import {LivezUseCase} from "./livez";
+import config from "../../../infrastructure/app/config";
+import {ServiceStatus} from "../../../contracts/proto/common/health";
 
 const startedAt = Date.now();
 
@@ -22,6 +21,6 @@ export class StatusUseCase {
     }
 }
 
-const statusUseCase = new StatusUseCase();
 
-export default statusUseCase;
+export default StatusUseCase;
+

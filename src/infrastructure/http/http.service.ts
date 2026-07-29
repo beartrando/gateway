@@ -1,18 +1,17 @@
 import logger from "@shared/logger";
-import config from "./config";
 import express, {Express} from 'express';
 import morgan from 'morgan';
-import gatewayRoutes from './routes/gateway.routes';
-import * as orchestrationController from './controllers/orchestration.controller';
 import cors from 'cors'
 // import cookieParser from "cookie-parser";
 import {Server} from "http";
+import ProxyController from "./controllers/proxy-controller";
+import HealthRouter from "./routes/health.routes";
 
 export class HttpService {
     private readonly app: Express;
     private server?: Server;
 
-    constructor(private readonly httpPort: number) {
+    constructor(private readonly httpPort: number, private readonly healthRouter: HealthRouter, private readonly proxyController: ProxyController) {
 
         this.app = express();
         this.app.use(express.json());
@@ -25,8 +24,8 @@ export class HttpService {
         // this.app.use(cookieParser());
 
 
-        this.app.use('/gateway', gatewayRoutes);
-        this.app.use(orchestrationController.proxy);
+        this.app.use('/gateway', healthRouter.router);
+        this.app.use(proxyController.proxy);
     }
 
     async init(): Promise<void> {
@@ -50,7 +49,5 @@ export class HttpService {
     }
 }
 
-export const httpService = new HttpService(config.httpPort);
-
-export default httpService;
+export default HttpService;
 

@@ -1,5 +1,5 @@
-import * as healthProto from "../../contracts/proto/common/health";
-import healthAgregator from "../../infrastructure/grpc/clients/health.agregator";
+import * as healthProto from "../../../contracts/proto/common/health";
+import healthAgregator from "../../../infrastructure/grpc/clients/health.agregator";
 
 export class FullHealthUseCase {
 
@@ -20,8 +20,4 @@ export class FullHealthUseCase {
     }
 }
 
-const fullHealthUseCase = new FullHealthUseCase();
-
-export default fullHealthUseCase;
-
-
+export default FullHealthUseCase;

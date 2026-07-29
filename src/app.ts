@@ -1,10 +1,50 @@
-import * as grpc from '@grpc/grpc-js';
 import logger from '@shared/logger';
-import config from "./infrastructure/app/config";
-import grpcService from "./infrastructure/grpc/grpc.service";
-import httpService from "./infrastructure/http/http.service";
+import GrpcService from "./infrastructure/grpc/grpc.service";
+import FullHealthUseCase from "./application/use-cases/health/full-health";
+import HealthHandler from "./infrastructure/grpc/handlers/health.handler";
+import HealthUseCase from "./application/use-cases/health/health";
+import StatusUseCase from "./application/use-cases/health/status";
+import LivezUseCase from "./application/use-cases/health/livez";
+import ReadyzUseCase from "./application/use-cases/health/readyz";
+import {config as grpcConfig} from "./infrastructure/grpc/config/config";
+import {config as httpConfig} from "./infrastructure/http/config";
+import OrchestrationService from "./infrastructure/orchestration/orchestration.service";
+import HttpService from "./infrastructure/http/http.service";
+import ProxyController from "./infrastructure/http/controllers/proxy-controller";
+import HealthController from "./infrastructure/http/controllers/gateway.controller";
+import HealthRouter from "./infrastructure/http/routes/health.routes";
+
+
+const fullHealthUseCase = new FullHealthUseCase;
+const healthUseCase = new HealthUseCase;
+const statusUseCase = new StatusUseCase;
+const livezUseCase = new LivezUseCase;
+const readyzUseCase = new ReadyzUseCase;
+
+const healthHandler = new HealthHandler(
+    healthUseCase,
+    statusUseCase,
+    livezUseCase,
+    readyzUseCase,
+)
+
+const healthController = new HealthController(
+    fullHealthUseCase,
+    healthUseCase,
+    statusUseCase,
+    livezUseCase,
+    readyzUseCase,
+);
+
+const healthRouter = new HealthRouter(healthController);
+
+
+const proxyController = new ProxyController(new OrchestrationService());
 
 async function bootstrap(): Promise<void> {
+
+    const grpcService = new GrpcService(grpcConfig.port, healthHandler);
+    const httpService = new HttpService(httpConfig.port, healthRouter, proxyController);
 
     try {
         await grpcService.init();
@@ -15,8 +55,8 @@ async function bootstrap(): Promise<void> {
         );
     } catch (err) {
         logger.error(
-            { err },
-            '💥 Failed to start Battle',
+            {err},
+            '💥 Failed to start Gateway',
         );
         process.exit(1);
     }

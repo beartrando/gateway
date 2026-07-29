@@ -1,31 +1,45 @@
 import wrapper from "./wrapper";
-import logger from "@shared/logger";
-import fullHealthUseCase from "../../../use-cases/health/full-health";
-import livezUseCase from "../../../use-cases/health/livez";
-import readyzUseCase from "../../../use-cases/health/readyz";
-import healthUseCase from "../../../use-cases/health/health";
-import statusUseCase from "../../../use-cases/health/status";
 
-export const health = wrapper(async (req, res) => {
-    if (req.query.full) {
-        return await fullHealthUseCase.execute();
-    } else {
-        return await healthUseCase.execute();
-    }
-});
+import FullHealthUseCase from "../../../application/use-cases/health/full-health";
+import HealthUseCase from "../../../application/use-cases/health/health";
+import StatusUseCase from "../../../application/use-cases/health/status";
+import LivezUseCase from "../../../application/use-cases/health/livez";
+import ReadyzUseCase from "../../../application/use-cases/health/readyz";
 
-export const fullHealth = wrapper(async (req, res) => {
-    return await fullHealthUseCase.execute();
-});
+export class HealthController {
 
-export const status = wrapper(async (req, res) => {
-    return await statusUseCase.execute();
-});
+    constructor(
+        private readonly fullHealthUseCase: FullHealthUseCase,
+        private readonly healthUseCase: HealthUseCase,
+        private readonly statusUseCase: StatusUseCase,
+        private readonly livezUseCase: LivezUseCase,
+        private readonly readyzUseCase: ReadyzUseCase,
+    ) {}
 
-export const livez = wrapper(async (req, res) => {
-    return await livezUseCase.execute();
-});
+    health = wrapper(async (req, res) => {
 
-export const readyz = wrapper(async (req, res) => {
-    return await readyzUseCase.execute();
-});
+        if (req.query.full) {
+            return await this.fullHealthUseCase.execute();
+        }
+
+        return await this.healthUseCase.execute();
+    });
+
+    fullHealth = wrapper(async () => {
+        return await this.fullHealthUseCase.execute();
+    });
+
+    status = wrapper(async () => {
+        return await this.statusUseCase.execute();
+    });
+
+    livez = wrapper(async () => {
+        return await this.livezUseCase.execute();
+    });
+
+    readyz = wrapper(async () => {
+        return await this.readyzUseCase.execute();
+    });
+}
+
+export default HealthController;
