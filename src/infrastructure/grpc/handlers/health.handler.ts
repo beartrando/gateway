@@ -1,6 +1,6 @@
 import * as grpc from '@grpc/grpc-js';
-import * as healthGrpc from '../../../contracts/proto/generated/common/health';
-import * as emptyGrpc from '../../../contracts/proto/generated/common/empty';
+import * as healthProto from '../../../contracts/proto/common/health';
+import * as emptyProto from '../../../contracts/proto/common/empty';
 import callbackError from './callback.error';
 import logger from "@shared/logger";
 import healthUseCase from "../../../use-cases/health/health";
@@ -9,8 +9,8 @@ import livezUseCase from "../../../use-cases/health/livez";
 import readyzUseCase from "../../../use-cases/health/readyz";
 
 export const check = async (
-    call: grpc.ServerUnaryCall<emptyGrpc.Empty, healthGrpc.HealthReport>,
-    callback: grpc.sendUnaryData<healthGrpc.HealthReport>
+    call: grpc.ServerUnaryCall<emptyProto.Empty, healthProto.HealthReport>,
+    callback: grpc.sendUnaryData<healthProto.HealthReport>
 ) => {
     try {
         const response = await healthUseCase.execute();
@@ -25,8 +25,8 @@ export const check = async (
 };
 
 export const status = async (
-    call: grpc.ServerUnaryCall<emptyGrpc.Empty, healthGrpc.ServiceStatus>,
-    callback: grpc.sendUnaryData<healthGrpc.ServiceStatus>
+    call: grpc.ServerUnaryCall<emptyProto.Empty, healthProto.ServiceStatus>,
+    callback: grpc.sendUnaryData<healthProto.ServiceStatus>
 ) => {
     try {
         const response = await statusUseCase.execute();
@@ -40,8 +40,8 @@ export const status = async (
 };
 
 export const livez = async (
-    call: grpc.ServerUnaryCall<emptyGrpc.Empty, healthGrpc.LiveStatus>,
-    callback: grpc.sendUnaryData<healthGrpc.LiveStatus>
+    call: grpc.ServerUnaryCall<emptyProto.Empty, healthProto.LiveStatus>,
+    callback: grpc.sendUnaryData<healthProto.LiveStatus>
 ) => {
     try {
         const response = await livezUseCase.execute();
@@ -55,8 +55,8 @@ export const livez = async (
 };
 
 export const readyz = async (
-    call: grpc.ServerUnaryCall<emptyGrpc.Empty, healthGrpc.ReadyStatus>,
-    callback: grpc.sendUnaryData<healthGrpc.ReadyStatus>
+    call: grpc.ServerUnaryCall<emptyProto.Empty, healthProto.ReadyStatus>,
+    callback: grpc.sendUnaryData<healthProto.ReadyStatus>
 ) => {
     try {
         const response = await readyzUseCase.execute();

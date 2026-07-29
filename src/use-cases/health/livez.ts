@@ -1,4 +1,4 @@
-import {LiveStatus} from "../../contracts/proto/generated/common/health";
+import {LiveStatus} from "../../contracts/proto/common/health";
 
 export class LivezUseCase {
     async execute(): Promise<LiveStatus> {

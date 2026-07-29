@@ -1,5 +1,5 @@
 import {Request} from 'express';
-import * as orchestrationGrpc from "../../contracts/proto/generated/orchestration";
+import * as orchestrationProto from "../../contracts/proto/orchestration";
 import logger from "@shared/logger";
 import orchestrationClient from "../grpc/clients/orchestration.client";
 
@@ -30,7 +30,7 @@ export const route = async function (req: Request) {
     });
 
     logger.log(headers);
-    const grpcRequest: orchestrationGrpc.ProxyRequest = {method, path, body, headers, queryParams};
+    const grpcRequest: orchestrationProto.ProxyRequest = {method, path, body, headers, queryParams};
 
     return await orchestrationClient.proxy(grpcRequest);
 }

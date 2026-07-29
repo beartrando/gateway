@@ -1,20 +1,20 @@
 import * as grpc from "@grpc/grpc-js";
 
-import * as orchestrationGrpc from "../../../contracts/proto/generated/orchestration";
+import * as orchestrationProto from "../../../contracts/proto/orchestration";
 
 import { GrpcClientManager } from "@shared/grpc-client-manager";
 
 import servicesConfig from "../config/microservices.config";
 
 export class OrchestrationClient {
-    private readonly manager: GrpcClientManager<orchestrationGrpc.OrchestrationClient>;
+    private readonly manager: GrpcClientManager<orchestrationProto.OrchestrationClient>;
 
     constructor(
         private readonly url: string,
     ) {
         this.manager = new GrpcClientManager(
             () =>
-                new orchestrationGrpc.OrchestrationClient(
+                new orchestrationProto.OrchestrationClient(
                     this.url,
                     grpc.credentials.createInsecure(),
                 ),
@@ -22,8 +22,8 @@ export class OrchestrationClient {
     }
 
     async proxy(
-        request: orchestrationGrpc.ProxyRequest,
-    ): Promise<orchestrationGrpc.ProxyResponse | null> {
+        request: orchestrationProto.ProxyRequest,
+    ): Promise<orchestrationProto.ProxyResponse | null> {
         return this.manager.call(
             (client, callback) =>
                 client.proxy(request, callback),

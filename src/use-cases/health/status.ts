@@ -1,5 +1,5 @@
 import config from "../../infrastructure/app/config";
-import {ServiceStatus} from "../../contracts/proto/generated/common/health";
+import {ServiceStatus} from "../../contracts/proto/common/health";
 import {LivezUseCase} from "./livez";
 
 const startedAt = Date.now();

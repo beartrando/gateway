@@ -1,4 +1,4 @@
-import * as healthGrpc from "../../contracts/proto/generated/common/health";
+import * as healthProto from "../../contracts/proto/common/health";
 import healthAgregator from "../../infrastructure/grpc/clients/health.agregator";
 
 export class FullHealthUseCase {
@@ -8,13 +8,13 @@ export class FullHealthUseCase {
         const reports = await healthAgregator.checkAll();
 
         const ok = Object.values(reports).every(
-            report => report?.status === healthGrpc.HealthStatus.HEALTH_STATUS_OK,
+            report => report?.status === healthProto.HealthStatus.HEALTH_STATUS_OK,
         );
 
         return {
             status: ok
-                ? healthGrpc.HealthStatus.HEALTH_STATUS_OK
-                : healthGrpc.HealthStatus.HEALTH_STATUS_FAIL,
+                ? healthProto.HealthStatus.HEALTH_STATUS_OK
+                : healthProto.HealthStatus.HEALTH_STATUS_FAIL,
             components: reports,
         };
     }

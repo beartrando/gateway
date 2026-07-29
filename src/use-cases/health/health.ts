@@ -1,26 +1,26 @@
-import * as healthGrpc from "../../contracts/proto/generated/common/health";
+import * as healthProto from "../../contracts/proto/common/health";
 import config from "../../infrastructure/app/config";
 import healthAgregator from "../../infrastructure/grpc/clients/health.agregator";
 
 export class HealthUseCase {
 
-    async execute(): Promise<healthGrpc.HealthReport> {
+    async execute(): Promise<healthProto.HealthReport> {
         const reports = await healthAgregator.checkAll();
 
-        const components: Record<string, healthGrpc.HealthStatus> = {};
+        const components: Record<string, healthProto.HealthStatus> = {};
 
-        let status = healthGrpc.HealthStatus.HEALTH_STATUS_OK;
+        let status = healthProto.HealthStatus.HEALTH_STATUS_OK;
 
         for (const [name, report] of Object.entries(reports)) {
             const componentStatus =
-                report?.status === healthGrpc.HealthStatus.HEALTH_STATUS_OK
-                    ? healthGrpc.HealthStatus.HEALTH_STATUS_OK
-                    : healthGrpc.HealthStatus.HEALTH_STATUS_FAIL;
+                report?.status === healthProto.HealthStatus.HEALTH_STATUS_OK
+                    ? healthProto.HealthStatus.HEALTH_STATUS_OK
+                    : healthProto.HealthStatus.HEALTH_STATUS_FAIL;
 
             components[name] = componentStatus;
 
-            if (componentStatus === healthGrpc.HealthStatus.HEALTH_STATUS_FAIL) {
-                status = healthGrpc.HealthStatus.HEALTH_STATUS_FAIL;
+            if (componentStatus === healthProto.HealthStatus.HEALTH_STATUS_FAIL) {
+                status = healthProto.HealthStatus.HEALTH_STATUS_FAIL;
             }
         }
 

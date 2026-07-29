@@ -1,7 +1,7 @@
 import * as grpc from "@grpc/grpc-js";
 
-import * as emptyGrpc from "../../../contracts/proto/generated/common/empty";
-import * as healthGrpc from "../../../contracts/proto/generated/common/health";
+import * as emptyProto from "../../../contracts/proto/common/empty";
+import * as healthProto from "../../../contracts/proto/common/health";
 
 import servicesConfig from "../config/microservices.config";
 
@@ -9,20 +9,20 @@ import { GrpcClientManager } from "@shared/grpc-client-manager";
 import logger from "@shared/logger";
 
 export class HealthAgregator {
-    private readonly empty: emptyGrpc.Empty = {};
+    private readonly empty: emptyProto.Empty = {};
 
     private readonly managers: Record<
         string,
-        GrpcClientManager<healthGrpc.HealthClient>
+        GrpcClientManager<healthProto.HealthClient>
     >;
 
     constructor() {
         this.managers = Object.fromEntries(
             Object.entries(servicesConfig).map(([serviceName, service]) => [
                 serviceName,
-                new GrpcClientManager<healthGrpc.HealthClient>(
+                new GrpcClientManager<healthProto.HealthClient>(
                     () =>
-                        new healthGrpc.HealthClient(
+                        new healthProto.HealthClient(
                             service.url,
                             grpc.credentials.createInsecure(),
                         ),
@@ -33,7 +33,7 @@ export class HealthAgregator {
 
     async check(
         serviceName: string,
-    ): Promise<healthGrpc.HealthReport | null> {
+    ): Promise<healthProto.HealthReport | null> {
         const manager = this.managers[serviceName];
 
         if (!manager) {
@@ -61,7 +61,7 @@ export class HealthAgregator {
     }
 
     async checkAll(): Promise<
-        Record<string, healthGrpc.HealthReport | null>
+        Record<string, healthProto.HealthReport | null>
     > {
         const reports = await Promise.all(
             Object.keys(this.managers).map(

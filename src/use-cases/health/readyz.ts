@@ -1,4 +1,4 @@
-import {ReadyStatus} from "../../contracts/proto/generated/common/health";
+import {ReadyStatus} from "../../contracts/proto/common/health";
 import {LivezUseCase} from "./livez";
 
 export class ReadyzUseCase {
