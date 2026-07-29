@@ -1,7 +1,6 @@
 import * as grpc from "@grpc/grpc-js";
 import * as healthProto from '../../contracts/proto/common/health';
 import logger from "@shared/logger";
-import config from "./config/config";
 import HealthHandler from "./handlers/health.handler";
 
 export class GrpcService {
@@ -38,6 +37,10 @@ export class GrpcService {
         );
     }
 
+    stop() {
+        this.server.forceShutdown();
+    }
+
     private registerHealthService() {
         this.server.addService(healthProto.HealthService, {
             check: this.healthHandler.check,
@@ -49,10 +52,6 @@ export class GrpcService {
 
     private addServices() {
         this.registerHealthService();
-    }
-
-    stop() {
-        this.server.forceShutdown();
     }
 }
 

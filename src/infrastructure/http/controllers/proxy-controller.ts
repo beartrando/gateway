@@ -3,11 +3,6 @@ import OrchestrationService from "../../orchestration/orchestration.service";
 
 export class ProxyController {
 
-    constructor(
-        private readonly orchestrationService: OrchestrationService,
-    ) {
-    }
-
     proxy = wrapper(async (req, res) => {
         const response = await this.orchestrationService.route(req);
         if (response) {
@@ -25,6 +20,11 @@ export class ProxyController {
             res.status(500).json({error: "No response from orchestration"});
         }
     });
+
+    constructor(
+        private readonly orchestrationService: OrchestrationService,
+    ) {
+    }
 
 }
 

@@ -2,7 +2,7 @@ import * as grpc from "@grpc/grpc-js";
 
 import * as orchestrationProto from "../../../contracts/proto/orchestration";
 
-import { GrpcClientManager } from "@shared/grpc-client-manager";
+import {GrpcClientManager} from "@shared/grpc-client-manager";
 
 import servicesConfig from "../config/microservices.config";
 

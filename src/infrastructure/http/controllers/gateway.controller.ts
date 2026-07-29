@@ -8,14 +8,6 @@ import ReadyzUseCase from "../../../application/use-cases/health/readyz";
 
 export class HealthController {
 
-    constructor(
-        private readonly fullHealthUseCase: FullHealthUseCase,
-        private readonly healthUseCase: HealthUseCase,
-        private readonly statusUseCase: StatusUseCase,
-        private readonly livezUseCase: LivezUseCase,
-        private readonly readyzUseCase: ReadyzUseCase,
-    ) {}
-
     health = wrapper(async (req, res) => {
 
         if (req.query.full) {
@@ -24,22 +16,27 @@ export class HealthController {
 
         return await this.healthUseCase.execute();
     });
-
     fullHealth = wrapper(async () => {
         return await this.fullHealthUseCase.execute();
     });
-
     status = wrapper(async () => {
         return await this.statusUseCase.execute();
     });
-
     livez = wrapper(async () => {
         return await this.livezUseCase.execute();
     });
-
     readyz = wrapper(async () => {
         return await this.readyzUseCase.execute();
     });
+
+    constructor(
+        private readonly fullHealthUseCase: FullHealthUseCase,
+        private readonly healthUseCase: HealthUseCase,
+        private readonly statusUseCase: StatusUseCase,
+        private readonly livezUseCase: LivezUseCase,
+        private readonly readyzUseCase: ReadyzUseCase,
+    ) {
+    }
 }
 
 export default HealthController;

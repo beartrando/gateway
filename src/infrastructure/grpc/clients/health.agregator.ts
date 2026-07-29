@@ -5,7 +5,7 @@ import * as healthProto from "../../../contracts/proto/common/health";
 
 import servicesConfig from "../config/microservices.config";
 
-import { GrpcClientManager } from "@shared/grpc-client-manager";
+import {GrpcClientManager} from "@shared/grpc-client-manager";
 import logger from "@shared/logger";
 
 export class HealthAgregator {
