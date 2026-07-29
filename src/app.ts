@@ -12,7 +12,7 @@ import OrchestrationService from "./infrastructure/orchestration/orchestration.s
 import HttpService from "./infrastructure/http/http.service";
 import ProxyController from "./infrastructure/http/controllers/proxy-controller";
 import HealthController from "./infrastructure/http/controllers/gateway.controller";
-import HealthRouter from "./infrastructure/http/routes/health.routes";
+import GatewayRouter from "./infrastructure/http/routes/health.routes";
 
 
 const fullHealthUseCase = new FullHealthUseCase;
@@ -36,7 +36,7 @@ const healthController = new HealthController(
     readyzUseCase,
 );
 
-const healthRouter = new HealthRouter(healthController);
+const gatewayRouter = new GatewayRouter(healthController);
 
 
 const proxyController = new ProxyController(new OrchestrationService());
@@ -44,7 +44,7 @@ const proxyController = new ProxyController(new OrchestrationService());
 async function bootstrap(): Promise<void> {
 
     const grpcService = new GrpcService(grpcConfig.port, healthHandler);
-    const httpService = new HttpService(httpConfig.port, healthRouter, proxyController);
+    const httpService = new HttpService(httpConfig.port, gatewayRouter, proxyController);
 
     try {
         await grpcService.init();

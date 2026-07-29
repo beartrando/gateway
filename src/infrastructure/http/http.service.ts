@@ -5,13 +5,13 @@ import cors from 'cors'
 // import cookieParser from "cookie-parser";
 import {Server} from "http";
 import ProxyController from "./controllers/proxy-controller";
-import HealthRouter from "./routes/health.routes";
+import GatewayRouter from "./routes/health.routes";
 
 export class HttpService {
     private readonly app: Express;
     private server?: Server;
 
-    constructor(private readonly httpPort: number, private readonly healthRouter: HealthRouter, private readonly proxyController: ProxyController) {
+    constructor(private readonly httpPort: number, private readonly gatewayRouter: GatewayRouter, private readonly proxyController: ProxyController) {
 
         this.app = express();
         this.app.use(express.json());
@@ -24,7 +24,7 @@ export class HttpService {
         // this.app.use(cookieParser());
 
 
-        this.app.use('/gateway', healthRouter.router);
+        this.app.use('/gateway', gatewayRouter.router);
         this.app.use(proxyController.proxy);
     }
 
