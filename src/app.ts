@@ -16,7 +16,6 @@ import GatewayRouter from "./infrastructure/http/routes/health.routes";
 import HealthAgregator from "./infrastructure/grpc/clients/health.agregator";
 import OrchestrationClient from "./infrastructure/grpc/clients/orchestration.client";
 import microservicesConfig from "./infrastructure/grpc/config/microservices.config";
-import servicesConfig from "./infrastructure/grpc/config/microservices.config";
 
 
 const healthAgregator = new HealthAgregator();
