@@ -1,9 +1,13 @@
 import {Request} from 'express';
 import * as orchestrationProto from "../../contracts/proto/orchestration";
 import logger from "@shared/logger";
-import orchestrationClient from "../grpc/clients/orchestration.client";
+import OrchestrationClient from "../grpc/clients/orchestration.client";
 
 export class OrchestrationService {
+
+    constructor(private readonly orchestrationClient: OrchestrationClient) {
+    }
+
     async route(req: Request) {
         const method = req.method;
         const path = req.path;
@@ -31,9 +35,9 @@ export class OrchestrationService {
         });
 
         logger.log(headers);
-        const grpcRequest: orchestrationProto.ProxyRequest = {method, path, body, headers, queryParams};
+        const request: orchestrationProto.ProxyRequest = {method, path, body, headers, queryParams};
 
-        return await orchestrationClient.proxy(grpcRequest);
+        return await this.orchestrationClient.proxy(request);
     }
 }
 

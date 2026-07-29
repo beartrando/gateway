@@ -13,10 +13,16 @@ import HttpService from "./infrastructure/http/http.service";
 import ProxyController from "./infrastructure/http/controllers/proxy-controller";
 import HealthController from "./infrastructure/http/controllers/gateway.controller";
 import GatewayRouter from "./infrastructure/http/routes/health.routes";
+import HealthAgregator from "./infrastructure/grpc/clients/health.agregator";
+import OrchestrationClient from "./infrastructure/grpc/clients/orchestration.client";
+import microservicesConfig from "./infrastructure/grpc/config/microservices.config";
+import servicesConfig from "./infrastructure/grpc/config/microservices.config";
 
 
-const fullHealthUseCase = new FullHealthUseCase;
-const healthUseCase = new HealthUseCase;
+const healthAgregator = new HealthAgregator();
+
+const fullHealthUseCase = new FullHealthUseCase(healthAgregator);
+const healthUseCase = new HealthUseCase(healthAgregator);
 const statusUseCase = new StatusUseCase;
 const livezUseCase = new LivezUseCase;
 const readyzUseCase = new ReadyzUseCase;
@@ -39,7 +45,9 @@ const healthController = new HealthController(
 const gatewayRouter = new GatewayRouter(healthController);
 
 
-const proxyController = new ProxyController(new OrchestrationService());
+const orchestrationClient = new OrchestrationClient(microservicesConfig.orchestration.url);
+const orchestrationService = new OrchestrationService(orchestrationClient);
+const proxyController = new ProxyController(orchestrationService);
 
 async function bootstrap(): Promise<void> {
 

@@ -31,6 +31,5 @@ export class OrchestrationClient {
     }
 }
 
-const orchestrationClient = new OrchestrationClient(servicesConfig.orchestration.url);
 
-export default orchestrationClient;
+export default OrchestrationClient;

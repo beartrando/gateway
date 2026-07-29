@@ -77,6 +77,4 @@ export class HealthAgregator {
     }
 }
 
-const healthAgregator = new HealthAgregator();
-
-export default healthAgregator;
+export default HealthAgregator;
