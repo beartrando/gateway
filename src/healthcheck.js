@@ -1,6 +1,6 @@
 import grpc from '@grpc/grpc-js';
-import * as gatewayProto from 'infrastructure/grpc/generated/gateway';
-import * as emptyProto from 'infrastructure/grpc/generated/common/empty';
+import * as gatewayProto from 'contracts/proto/gateway';
+import * as emptyProto from 'contracts/proto/common/empty';
 import config from "./infrastructure/app/config";
 
 const client = new gatewayProto.GatewayClient(
