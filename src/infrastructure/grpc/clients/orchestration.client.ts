@@ -4,8 +4,6 @@ import * as orchestrationProto from "../../../contracts/proto/orchestration";
 
 import {GrpcClientManager} from "@shared/grpc-client-manager";
 
-import servicesConfig from "../config/microservices.config";
-
 export class OrchestrationClient {
     private readonly manager: GrpcClientManager<orchestrationProto.OrchestrationClient>;
 

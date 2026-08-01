@@ -5,6 +5,7 @@ export class FullHealthUseCase {
 
     constructor(private readonly healthAgregator: HealthAgregator) {
     }
+
     async execute() {
 
         const reports = await this.healthAgregator.checkAll();
