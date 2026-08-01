@@ -34,6 +34,8 @@ RUN pnpm install --offline --frozen-lockfile
 RUN mkdir -p ./services/gateway/src/contracts/proto
 RUN pnpm --filter gateway proto:generate
 
+pnpm --filter @shared/errors proto:generate
+
 #RUN pnpm --filter gateway prisma:generate
 
 # ---------- DEV ----------
