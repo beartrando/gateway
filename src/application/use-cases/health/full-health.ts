@@ -1,9 +1,9 @@
 import * as healthProto from "../../../contracts/proto/common/health";
-import HealthAgregator from "../../../infrastructure/grpc/clients/health.agregator";
+import HealthAggregator from "../../../infrastructure/grpc/clients/health.aggregator";
 
 export class FullHealthUseCase {
 
-    constructor(private readonly healthAgregator: HealthAgregator) {
+    constructor(private readonly healthAgregator: HealthAggregator) {
     }
 
     async execute() {

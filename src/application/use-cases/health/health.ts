@@ -1,10 +1,10 @@
 import * as healthProto from "../../../contracts/proto/common/health";
 import config from "../../../infrastructure/app/config";
-import HealthAgregator from "../../../infrastructure/grpc/clients/health.agregator";
+import HealthAggregator from "../../../infrastructure/grpc/clients/health.aggregator";
 
 export class HealthUseCase {
 
-    constructor(private readonly healthAgregator: HealthAgregator) {
+    constructor(private readonly healthAgregator: HealthAggregator) {
     }
 
     async execute(): Promise<healthProto.HealthReport> {

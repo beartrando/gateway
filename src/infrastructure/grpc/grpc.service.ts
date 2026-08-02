@@ -10,7 +10,7 @@ export class GrpcService {
         this.server = new grpc.Server();
     }
 
-    async init(): Promise<void> {
+    async start(): Promise<void> {
         return new Promise<void>(
             (resolve, reject) => {
                 this.addServices();

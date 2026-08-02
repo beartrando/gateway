@@ -8,7 +8,7 @@ import servicesConfig from "../config/microservices.config";
 import {GrpcClientManager} from "@shared/grpc-client-manager";
 import logger from "@shared/logger";
 
-export class HealthAgregator {
+export class HealthAggregator {
     private readonly empty: emptyProto.Empty = {};
 
     private readonly managers: Record<
@@ -77,4 +77,4 @@ export class HealthAgregator {
     }
 }
 
-export default HealthAgregator;
+export default HealthAggregator;

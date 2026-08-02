@@ -2,8 +2,11 @@ import HealthUseCase from "../application/use-cases/health/health";
 import StatusUseCase from "../application/use-cases/health/status";
 import LivezUseCase from "../application/use-cases/health/livez";
 import ReadyzUseCase from "../application/use-cases/health/readyz";
+import HealthHandler from "../infrastructure/grpc/handlers/health.handler";
+import GrpcService from "../infrastructure/grpc/grpc.service";
+import HealthAggregator from "../infrastructure/grpc/clients/health.aggregator";
+import {config as grpcConfig} from "../infrastructure/grpc/config/config";
 import {config as httpConfig} from "../infrastructure/http/config";
-import HealthAgregator from "../infrastructure/grpc/clients/health.agregator";
 import FullHealthUseCase from "../application/use-cases/health/full-health";
 import HealthController from "../infrastructure/http/controllers/gateway.controller";
 import HttpService from "../infrastructure/http/http.service";
@@ -12,16 +15,24 @@ import OrchestrationClient from "../infrastructure/grpc/clients/orchestration.cl
 import ProxyController from "../infrastructure/http/controllers/proxy-controller";
 import microservicesConfig from "../infrastructure/grpc/config/microservices.config";
 import GatewayRouter from "../infrastructure/http/routes/health.routes";
+import Application from "../application/application";
 
-function buildHttpService() {
+function buildApplication() {
 
-    const healthAgregator = new HealthAgregator();
+    const healthAggregator = new HealthAggregator();
 
-    const fullHealthUseCase = new FullHealthUseCase(healthAgregator);
-    const healthUseCase = new HealthUseCase(healthAgregator);
+    const fullHealthUseCase = new FullHealthUseCase(healthAggregator);
+    const healthUseCase = new HealthUseCase(healthAggregator);
     const statusUseCase = new StatusUseCase;
     const livezUseCase = new LivezUseCase;
     const readyzUseCase = new ReadyzUseCase;
+
+    const healthHandler = new HealthHandler(
+        healthUseCase,
+        statusUseCase,
+        livezUseCase,
+        readyzUseCase,
+    )
 
     const healthController = new HealthController(
         fullHealthUseCase,
@@ -39,9 +50,12 @@ function buildHttpService() {
     const proxyController = new ProxyController(orchestrationService);
 
 
-    return new HttpService(httpConfig.port, gatewayRouter, proxyController);
+    const httpService = new HttpService(httpConfig.port, gatewayRouter, proxyController);
+    const grpcService = new GrpcService(grpcConfig.port, healthHandler);
 
+    const application = new Application(grpcService, httpService);
+
+    return application;
 }
 
-
-export default buildHttpService;
+export default buildApplication;

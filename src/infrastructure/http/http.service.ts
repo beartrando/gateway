@@ -28,7 +28,7 @@ export class HttpService {
         this.app.use(proxyController.proxy);
     }
 
-    async init(): Promise<void> {
+    async start(): Promise<void> {
         return new Promise<void>((resolve) => {
             this.server = this.app.listen(this.httpPort, "0.0.0.0", () => {
                 logger.info(`🌐 HTTP started on port ${this.httpPort}`);
