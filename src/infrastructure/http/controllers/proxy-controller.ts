@@ -1,5 +1,5 @@
 import wrapper from "./wrapper";
-import OrchestrationService from "../../orchestration/orchestration.service";
+import OrchestrationService from "../../orchestration/service";
 
 export class ProxyController {
 

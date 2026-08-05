@@ -1,6 +1,6 @@
 import logger from "@shared/logger";
-import GrpcService from "../infrastructure/grpc/grpc.service";
-import HttpService from "../infrastructure/http/http.service";
+import GrpcService from "../infrastructure/grpc/service";
+import HttpService from "../infrastructure/http/service";
 
 export class Application {
     constructor(
