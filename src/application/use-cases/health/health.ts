@@ -1,5 +1,5 @@
 import * as healthProto from "../../../contracts/proto/common/health";
-import config from "../../../infrastructure/app/config";
+import appConfig from "../../../infrastructure/app/config";
 import HealthAggregator from "../../../infrastructure/grpc/clients/health.aggregator";
 
 export class HealthUseCase {
@@ -28,7 +28,7 @@ export class HealthUseCase {
         }
 
         return {
-            service: config.appName,
+            service: appConfig.appName,
             status,
             components,
             timestamp: new Date(),

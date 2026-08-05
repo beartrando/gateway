@@ -1,4 +1,3 @@
-import logger from '@shared/logger';
 import buildApplication from "./composition/build-application";
 
 

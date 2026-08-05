@@ -1,5 +1,5 @@
-export const config = {
+export const httpConfig = {
     port: Number(process.env.HTTP_PORT) ?? 9090,
 };
 
-export default config;
+export default httpConfig;
