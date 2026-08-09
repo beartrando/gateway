@@ -10,6 +10,16 @@ export class Application {
     }
 
     async start(): Promise<void> {
+        const shutdown = async () => {
+            logger.info("🛑 Shutting down...");
+
+            await this.stop();
+
+            process.exit(0);
+        };
+
+        process.on("SIGINT", shutdown);
+        process.on("SIGTERM", shutdown);
 
         try {
 
@@ -26,19 +36,6 @@ export class Application {
             );
             process.exit(1);
         }
-
-        process.on(
-            'SIGINT',
-            async () => {
-                logger.info(
-                    '🛑 Shutting down...',
-                );
-
-                await this.stop();
-
-                process.exit(0);
-            },
-        );
     }
 
     async stop() {
