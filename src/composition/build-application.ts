@@ -9,7 +9,7 @@ import grpcConfig from "../infrastructure/grpc/config/config";
 import httpConfig from "../infrastructure/http/config";
 import FullHealthUseCase from "../application/use-cases/health/full-health";
 import HealthController from "../infrastructure/http/controllers/gateway.controller";
-import HttpService from "../infrastructure/http/service";
+import HttpServerService from "../infrastructure/http/server.service";
 import OrchestrationService from "../infrastructure/orchestration/service";
 import OrchestrationClient from "../infrastructure/grpc/clients/orchestration.client";
 import ProxyController from "../infrastructure/http/controllers/proxy-controller";
@@ -50,7 +50,7 @@ function buildApplication() {
     const proxyController = new ProxyController(orchestrationService);
 
 
-    const httpService = new HttpService(httpConfig.port, gatewayRouter, proxyController);
+    const httpService = new HttpServerService(httpConfig.port, gatewayRouter, proxyController);
     const grpcService = new GrpcService(grpcConfig.port, healthHandler);
 
     const application = new Application(grpcService, httpService);

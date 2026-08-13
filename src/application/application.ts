@@ -1,11 +1,11 @@
 import logger from "@shared/logger";
 import GrpcService from "../infrastructure/grpc/service";
-import HttpService from "../infrastructure/http/service";
+import HttpServerService from "../infrastructure/http/server.service";
 
 export class Application {
     constructor(
         private readonly grpcService: GrpcService,
-        private readonly httpService: HttpService,
+        private readonly httpService: HttpServerService,
     ) {
     }
 

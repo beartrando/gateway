@@ -7,7 +7,7 @@ import {Server} from "http";
 import ProxyController from "./controllers/proxy-controller";
 import GatewayRouter from "./routes/health.routes";
 
-export class HttpService {
+export class HttpServerService {
     private readonly app: Express;
     private server?: Server;
 
@@ -49,5 +49,5 @@ export class HttpService {
     }
 }
 
-export default HttpService;
+export default HttpServerService;
 
