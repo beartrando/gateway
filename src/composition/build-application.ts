@@ -6,7 +6,7 @@ import HealthHandler from "../infrastructure/grpc/handlers/health.handler";
 import GrpcService from "../infrastructure/grpc/service";
 import HealthAggregator from "../infrastructure/grpc/clients/health.aggregator";
 import grpcConfig from "../infrastructure/grpc/config/config";
-import httpConfig from "../infrastructure/http/config";
+import httpConfig from "../infrastructure/http/configs/http.server.config";
 import FullHealthUseCase from "../application/use-cases/health/full-health";
 import HealthController from "../infrastructure/http/controllers/gateway.controller";
 import HttpServerService from "../infrastructure/http/server.service";
