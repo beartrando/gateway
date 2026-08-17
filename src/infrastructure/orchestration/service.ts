@@ -34,10 +34,13 @@ export class OrchestrationService {
             return [{key, value: String(value)}];
         });
 
-        logger.log(headers);
         const request: orchestrationProto.ProxyRequest = {method, path, body, headers, queryParams};
 
-        return await this.orchestrationClient.proxy(request);
+        const resp = await this.orchestrationClient.proxy(request);
+
+        logger.log(resp);
+
+        return resp;
     }
 }
 
