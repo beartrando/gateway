@@ -6,7 +6,7 @@ export class ProxyController {
     proxy = wrapper(async (req, res) => {
         const response = await this.orchestrationService.route(req);
         if (response) {
-            if (req.header("x-debug-json") === "true") {
+            if (req.header("x-debug-json")) {
                 res.status(response.statusCode).json(
                     JSON.parse(Buffer.from(response.body).toString("utf8"))
                 );
