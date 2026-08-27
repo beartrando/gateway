@@ -32,7 +32,7 @@ export class Application {
         } catch (err) {
             logger.error(
                 {err},
-                '💥 Failed to start Gateway',
+                '💥 Failed to start Gateway service',
             );
             process.exit(1);
         }
