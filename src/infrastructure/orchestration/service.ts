@@ -38,7 +38,9 @@ export class OrchestrationService {
 
         const resp = await this.orchestrationClient.proxy(request);
 
-        logger.log(resp);
+        logger.log(
+            JSON.parse(Buffer.from(resp).toString("utf8"))
+        );
 
         return resp;
     }
