@@ -43,7 +43,7 @@ RUN pnpm --filter gateway proto:generate
 RUN mkdir -p ./shared/errors/src/contracts/proto
 RUN pnpm --filter @shared/errors proto:generate
 
-RUN pnpm --filter gateway prisma:generate
+#RUN pnpm --filter gateway prisma:generate
 
 # ---------- DEV ----------
 FROM deps AS dev
