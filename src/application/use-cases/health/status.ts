@@ -23,4 +23,3 @@ export class StatusUseCase {
 
 
 export default StatusUseCase;
-
