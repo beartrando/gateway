@@ -17,6 +17,7 @@ COPY tsconfig.base.json ./
 COPY services/gateway/package*.json ./services/gateway/
 COPY services/gateway/jest.config.js ./services/gateway/
 COPY services/gateway/tsconfig.json ./services/gateway/
+COPY services/gateway/jest.setup.ts ./services/gateway/
 COPY services/gateway/src ./services/gateway/src/
 
 RUN apt-get update \
