@@ -51,7 +51,8 @@ function buildApplication() {
     const proxyController = new ProxyController(orchestrationService);
 
 
-    const httpService = new HttpServerService(httpConfig.port, proxyController);
+    const httpService = new HttpServerService(httpConfig.port);
+    httpService.addRouter(proxyController.proxy);
     httpService.addRouter('/gateway', gatewayRouter.router);
     const grpcService = new GrpcService(grpcConfig.port);
     grpcService.registerService(
