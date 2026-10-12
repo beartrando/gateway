@@ -53,10 +53,17 @@ export class GrpcService {
     //     });
     // }
 
-    registerService(service, handlers) {
+    registerService(
+        service: grpc.ServiceDefinition<grpc.UntypedServiceImplementation>,
+        handlers: grpc.UntypedServiceImplementation,
+    ): void {
         this.services.push({ service, handlers });
     }
-    private _registerService(service, handlers) {
+
+    private _registerService(
+        service: grpc.ServiceDefinition<grpc.UntypedServiceImplementation>,
+        handlers: grpc.UntypedServiceImplementation,
+    ): void {
         this.server.addService(service, handlers);
     }
 
