@@ -52,8 +52,9 @@ function buildApplication() {
 
 
     const httpService = new HttpServerService(httpConfig.port);
-    httpService.addRouter(proxyController.proxy);
     httpService.addRouter('/gateway', gatewayRouter.router);
+    // Прокси монтируется на "/" последним, иначе он перехватывает /gateway/* (health и др.)
+    httpService.addRouter(proxyController.proxy);
     const grpcService = new GrpcService(grpcConfig.port);
     grpcService.registerService(
         healthProto.HealthService,
