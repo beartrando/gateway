@@ -50,7 +50,7 @@ RUN pnpm --filter @shared/errors build
 #RUN pnpm --filter @shared/kafka-manager build
 #RUN pnpm --filter @shared/pg-boss-manager build
 
-#RUN pnpm --filter gateway prisma:generate
+RUN pnpm --filter gateway prisma:generate
 
 # ---------- DEV ----------
 FROM deps AS dev
